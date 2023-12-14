@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		020066992B1F53AD00576F88 /* UIColor+rgb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020066982B1F53AD00576F88 /* UIColor+rgb.swift */; };
+		025F1B502B1E5FAD0088E48D /* UIColor+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025F1B4F2B1E5FAD0088E48D /* UIColor+hex.swift */; };
+		025F1B542B1E61710088E48D /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025F1B532B1E61710088E48D /* Colors.swift */; };
 		0280B6AF2B0CAE6E00A8B65D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0280B6AE2B0CAE6E00A8B65D /* AppDelegate.swift */; };
 		0280B6B12B0CAE6E00A8B65D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0280B6B02B0CAE6E00A8B65D /* SceneDelegate.swift */; };
 		0280B6C32B0CAFD700A8B65D /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0280B6C22B0CAFD700A8B65D /* MainTabBarController.swift */; };
@@ -14,6 +17,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		020066982B1F53AD00576F88 /* UIColor+rgb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+rgb.swift"; sourceTree = "<group>"; };
+		025F1B4F2B1E5FAD0088E48D /* UIColor+hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+hex.swift"; sourceTree = "<group>"; };
+		025F1B532B1E61710088E48D /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		0280B6AB2B0CAE6E00A8B65D /* YAWA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YAWA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0280B6AE2B0CAE6E00A8B65D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0280B6B02B0CAE6E00A8B65D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -33,6 +39,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		025F1B4E2B1E5F9B0088E48D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				025F1B4F2B1E5FAD0088E48D /* UIColor+hex.swift */,
+				020066982B1F53AD00576F88 /* UIColor+rgb.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		025F1B512B1E615D0088E48D /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				025F1B532B1E61710088E48D /* Colors.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
 		0280B6A22B0CAE6E00A8B65D = {
 			isa = PBXGroup;
 			children = (
@@ -52,6 +75,8 @@
 		0280B6AD2B0CAE6E00A8B65D /* YAWA */ = {
 			isa = PBXGroup;
 			children = (
+				025F1B512B1E615D0088E48D /* Library */,
+				025F1B4E2B1E5F9B0088E48D /* Extensions */,
 				0280B6C62B0CB2A800A8B65D /* Application */,
 				0280B6C82B0CB2D300A8B65D /* Flow */,
 				0280B6C72B0CB2CF00A8B65D /* Supporting Files */,
@@ -171,8 +196,11 @@
 			files = (
 				0280B6C52B0CB01500A8B65D /* WeatherViewController.swift in Sources */,
 				0280B6AF2B0CAE6E00A8B65D /* AppDelegate.swift in Sources */,
+				025F1B542B1E61710088E48D /* Colors.swift in Sources */,
+				025F1B502B1E5FAD0088E48D /* UIColor+hex.swift in Sources */,
 				0280B6C32B0CAFD700A8B65D /* MainTabBarController.swift in Sources */,
 				0280B6B12B0CAE6E00A8B65D /* SceneDelegate.swift in Sources */,
+				020066992B1F53AD00576F88 /* UIColor+rgb.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
