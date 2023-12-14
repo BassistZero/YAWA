@@ -30,7 +30,7 @@ private extension SceneDelegate {
     func configureWindow(with scene: UIScene) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = MainTabBarController()
+        window?.rootViewController = CityWeatherConfigurator.configure()
         window?.makeKeyAndVisible()
     }
 
