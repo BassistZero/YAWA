@@ -122,6 +122,7 @@ final class ViewService {
 
             imageView.image = weatherConditionImage
             imageView.tintColor = .white
+            imageView.contentMode = .scaleAspectFit
 
             return imageView
         }()

@@ -58,7 +58,7 @@ private extension CityWeatherHourlyForecastCell {
             label.translatesAutoresizingMaskIntoConstraints = false
 
             label.textColor = .white
-            label.font = .systemFont(ofSize: 16, weight: .light)
+            label.font = UIFont.systemFont(ofSize: 16, weight: .light)
             label.textAlignment = .center
 
             return label
@@ -69,6 +69,7 @@ private extension CityWeatherHourlyForecastCell {
             imageView.translatesAutoresizingMaskIntoConstraints = false
 
             imageView.tintColor = .white
+            imageView.contentMode = .scaleAspectFit
 
             return imageView
         }()
@@ -79,6 +80,8 @@ private extension CityWeatherHourlyForecastCell {
 
             label.textColor = .white
             label.textAlignment = .center
+            label.font = UIFont.systemFont(ofSize: 16, weight: .light)
+            label.lineBreakMode = .byClipping
 
             return label
         }()
