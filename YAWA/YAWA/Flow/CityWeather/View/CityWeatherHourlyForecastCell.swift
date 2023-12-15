@@ -57,7 +57,7 @@ private extension CityWeatherHourlyForecastCell {
             let label = UILabel()
             label.translatesAutoresizingMaskIntoConstraints = false
 
-            label.textColor = .white
+            label.textColor = .textColor
             label.font = UIFont.systemFont(ofSize: 16, weight: .light)
             label.textAlignment = .center
 
@@ -78,7 +78,7 @@ private extension CityWeatherHourlyForecastCell {
             let label = UILabel()
             label.translatesAutoresizingMaskIntoConstraints = false
 
-            label.textColor = .white
+            label.textColor = .textColor
             label.textAlignment = .center
             label.font = UIFont.systemFont(ofSize: 16, weight: .light)
             label.lineBreakMode = .byClipping

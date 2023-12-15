@@ -15,7 +15,7 @@ final class ViewService {
 
     func createBackgroundGradient() -> CAGradientLayer {
         let frame = UIScreen.main.bounds
-        return createGradientLayer(colors: [UIColor(hex: "#2F5AF4")!, UIColor(hex: "#0FA2AB")!], frame: frame)
+        return createGradientLayer(colors: UIColor.gradientBackground, frame: frame)
     }
 
     func createScrollView() -> UIScrollView {
@@ -72,7 +72,7 @@ final class ViewService {
             let view = UIView()
             view.translatesAutoresizingMaskIntoConstraints = false
 
-            let gradientLayer = createGradientLayer(colors: [UIColor(hex: "#0FA2AB")!, UIColor(hex: "#2F5AF4")!], frame: CGRect(x: 0, y: 0, width: 700, height: 700))
+            let gradientLayer = createGradientLayer(colors: UIColor.gradientBackground, frame: CGRect(x: 0, y: 0, width: 700, height: 700))
             gradientLayer.startPoint = CGPoint(x: 0, y: 0)
 
             view.layer.addSublayer(gradientLayer)
@@ -95,7 +95,7 @@ final class ViewService {
             label.translatesAutoresizingMaskIntoConstraints = false
 
             label.text = cityName
-            label.textColor = .white
+            label.textColor = .textColor
             label.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
 
             return label
@@ -110,7 +110,7 @@ final class ViewService {
             dateFormatter.timeStyle = .short
 
             label.text = dateFormatter.string(from: date)
-            label.textColor = .white
+            label.textColor = .textColor
             label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
 
             return label
@@ -132,7 +132,7 @@ final class ViewService {
             label.translatesAutoresizingMaskIntoConstraints = false
 
             label.text = weatherConditionDescription
-            label.textColor = .white
+            label.textColor = .textColor
             label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
 
             return label
@@ -143,7 +143,7 @@ final class ViewService {
             label.translatesAutoresizingMaskIntoConstraints = false
 
             label.text = currentTemperature
-            label.textColor = .white
+            label.textColor = .textColor
             label.font = UIFont.systemFont(ofSize: 32, weight: .bold)
 
             return label
@@ -154,7 +154,7 @@ final class ViewService {
             label.translatesAutoresizingMaskIntoConstraints = false
 
             label.text = humidity
-            label.textColor = .white
+            label.textColor = .textColor
             label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
 
             return label
@@ -165,7 +165,7 @@ final class ViewService {
             label.translatesAutoresizingMaskIntoConstraints = false
 
             label.text = temperatureRange
-            label.textColor = .white
+            label.textColor = .textColor
             label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
 
             return label
@@ -248,7 +248,7 @@ final class ViewService {
             let view = UIView()
             view.translatesAutoresizingMaskIntoConstraints = false
 
-            let gradientLayer = createGradientLayer(colors: [UIColor(hex: "#0FA2AB")!, UIColor(hex: "#2F5AF4")!], frame: CGRect(x: 0, y: 0, width: 500, height: 300))
+            let gradientLayer = createGradientLayer(colors: UIColor.gradientBackground, frame: CGRect(x: 0, y: 0, width: 500, height: 300))
             gradientLayer.startPoint = CGPoint(x: 0, y: 0)
             view.layer.addSublayer(gradientLayer)
 

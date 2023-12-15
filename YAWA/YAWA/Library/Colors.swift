@@ -18,6 +18,10 @@ extension UIColor {
         )
     }
 
+    static var textColor: UIColor {
+        .white
+    }
+
     static var border: CGColor {
         varyCGColor(
             light: .init(redValue: 78, greenValue: 115, blueValue: 246, alpha: 1)!,
@@ -31,7 +35,7 @@ extension UIColor {
 
 extension UIColor {
 
-    static var gradientBackground: [CGColor] {
+    static var gradientBackground: [UIColor] {
         varyGradient(
             light: [
                 primary,
@@ -60,8 +64,8 @@ extension UIColor {
         UIScreen.main.traitCollection.userInterfaceStyle == .light ? light.cgColor : dark.cgColor
     }
 
-    private static func varyGradient(light: [UIColor], dark: [UIColor]) -> [CGColor] {
-        UIScreen.main.traitCollection.userInterfaceStyle == .light ? light.map { $0.cgColor } : dark.map { $0 .cgColor }
+    private static func varyGradient(light: [UIColor], dark: [UIColor]) -> [UIColor] {
+        UIScreen.main.traitCollection.userInterfaceStyle == .light ? light : dark
     }
 
 }
