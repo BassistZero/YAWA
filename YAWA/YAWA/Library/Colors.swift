@@ -18,6 +18,14 @@ extension UIColor {
         )
     }
 
+    static var systemWhite: UIColor {
+        varyUIColor(light: .white, dark: .black)
+    }
+
+    static var systemBlack: UIColor {
+        varyUIColor(light: .black, dark: .white)
+    }
+
     static var textColor: UIColor {
         .white
     }

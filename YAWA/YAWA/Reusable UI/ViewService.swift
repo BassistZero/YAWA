@@ -124,6 +124,11 @@ final class ViewService {
             imageView.tintColor = .white
             imageView.contentMode = .scaleAspectFit
 
+            imageView.layer.shadowOffset = .init(width: 5, height: 5)
+            imageView.layer.shadowOpacity = 0.5
+            imageView.layer.shadowColor = UIColor.systemBlack.cgColor
+            imageView.layer.shadowRadius = 10
+
             return imageView
         }()
 

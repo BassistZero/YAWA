@@ -71,6 +71,11 @@ private extension CityWeatherHourlyForecastCell {
             imageView.tintColor = .white
             imageView.contentMode = .scaleAspectFit
 
+            imageView.layer.shadowOffset = .init(width: 3, height: 3)
+            imageView.layer.shadowOpacity = 0.3
+            imageView.layer.shadowColor = UIColor.systemBlack.cgColor
+            imageView.layer.shadowRadius = 7
+
             return imageView
         }()
 
