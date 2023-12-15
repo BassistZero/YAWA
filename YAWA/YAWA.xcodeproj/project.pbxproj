@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		020066992B1F53AD00576F88 /* UIColor+rgb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020066982B1F53AD00576F88 /* UIColor+rgb.swift */; };
+		020BC73B2B2C7E660099188D /* AllCitiesWeatherConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020BC73A2B2C7E660099188D /* AllCitiesWeatherConfigurator.swift */; };
+		020BC73E2B2C7EB50099188D /* AllCitiesWeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020BC73D2B2C7EB50099188D /* AllCitiesWeatherViewController.swift */; };
+		020BC7412B2C7EE50099188D /* AllCitiesWeatherPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020BC7402B2C7EE50099188D /* AllCitiesWeatherPresenter.swift */; };
 		025F1B502B1E5FAD0088E48D /* UIColor+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025F1B4F2B1E5FAD0088E48D /* UIColor+hex.swift */; };
 		025F1B542B1E61710088E48D /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025F1B532B1E61710088E48D /* Colors.swift */; };
 		0280B6AF2B0CAE6E00A8B65D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0280B6AE2B0CAE6E00A8B65D /* AppDelegate.swift */; };
@@ -30,6 +33,9 @@
 
 /* Begin PBXFileReference section */
 		020066982B1F53AD00576F88 /* UIColor+rgb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+rgb.swift"; sourceTree = "<group>"; };
+		020BC73A2B2C7E660099188D /* AllCitiesWeatherConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCitiesWeatherConfigurator.swift; sourceTree = "<group>"; };
+		020BC73D2B2C7EB50099188D /* AllCitiesWeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCitiesWeatherViewController.swift; sourceTree = "<group>"; };
+		020BC7402B2C7EE50099188D /* AllCitiesWeatherPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCitiesWeatherPresenter.swift; sourceTree = "<group>"; };
 		025F1B4F2B1E5FAD0088E48D /* UIColor+hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+hex.swift"; sourceTree = "<group>"; };
 		025F1B532B1E61710088E48D /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		0280B6AB2B0CAE6E00A8B65D /* YAWA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YAWA.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,6 +69,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		020BC7382B2C7E4B0099188D /* AllCitiesWeather */ = {
+			isa = PBXGroup;
+			children = (
+				020BC7392B2C7E590099188D /* Configurator */,
+				020BC73F2B2C7ED70099188D /* Presenter */,
+				020BC73C2B2C7EB00099188D /* View */,
+			);
+			path = AllCitiesWeather;
+			sourceTree = "<group>";
+		};
+		020BC7392B2C7E590099188D /* Configurator */ = {
+			isa = PBXGroup;
+			children = (
+				020BC73A2B2C7E660099188D /* AllCitiesWeatherConfigurator.swift */,
+			);
+			path = Configurator;
+			sourceTree = "<group>";
+		};
+		020BC73C2B2C7EB00099188D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				020BC73D2B2C7EB50099188D /* AllCitiesWeatherViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		020BC73F2B2C7ED70099188D /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				020BC7402B2C7EE50099188D /* AllCitiesWeatherPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		025F1B4E2B1E5F9B0088E48D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,6 +173,7 @@
 			children = (
 				0280B6C92B0CB2E900A8B65D /* MainTabBarController */,
 				0280B6CA2B0CB2FE00A8B65D /* CityWeather */,
+				020BC7382B2C7E4B0099188D /* AllCitiesWeather */,
 			);
 			path = Flow;
 			sourceTree = "<group>";
@@ -283,8 +324,10 @@
 				02A6333D2B2B8D4000A11368 /* HourlyForecastModel.swift in Sources */,
 				0280B6C52B0CB01500A8B65D /* CityWeatherViewController.swift in Sources */,
 				0288A0DA2B289FC800B13487 /* CityWeatherViewBuilder.swift in Sources */,
+				020BC73B2B2C7E660099188D /* AllCitiesWeatherConfigurator.swift in Sources */,
 				02A633392B2B5B9800A11368 /* WeatherModel.swift in Sources */,
 				0280B6AF2B0CAE6E00A8B65D /* AppDelegate.swift in Sources */,
+				020BC73E2B2C7EB50099188D /* AllCitiesWeatherViewController.swift in Sources */,
 				0288A0D32B28994E00B13487 /* ViewService.swift in Sources */,
 				025F1B542B1E61710088E48D /* Colors.swift in Sources */,
 				025F1B502B1E5FAD0088E48D /* UIColor+hex.swift in Sources */,
@@ -296,6 +339,7 @@
 				0280B6B12B0CAE6E00A8B65D /* SceneDelegate.swift in Sources */,
 				0288A0DC2B289FF600B13487 /* CityWeatherPresenter.swift in Sources */,
 				020066992B1F53AD00576F88 /* UIColor+rgb.swift in Sources */,
+				020BC7412B2C7EE50099188D /* AllCitiesWeatherPresenter.swift in Sources */,
 				0288A0E12B29DE8000B13487 /* NetworkService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
