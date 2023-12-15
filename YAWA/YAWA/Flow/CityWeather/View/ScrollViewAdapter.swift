@@ -14,3 +14,13 @@ class ScrollViewAdapter: NSObject {
     weak var delegate: ScrollViewAdapterDelegate?
 
 }
+
+// MARK: - UIScrollViewDelegate
+
+extension ScrollViewAdapter: UIScrollViewDelegate {
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // FIXME - Great opportunity for PTR!
+    }
+
+}

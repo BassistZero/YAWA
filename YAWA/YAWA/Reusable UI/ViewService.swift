@@ -18,14 +18,16 @@ final class ViewService {
         return createGradientLayer(colors: UIColor.gradientBackground, frame: frame)
     }
 
-    func createScrollView() -> UIScrollView {
+    func createScrollView(delegate: UIScrollViewDelegate) -> UIScrollView {
         lazy var scrollView: UIScrollView = {
             let scrollView = UIScrollView()
             scrollView.translatesAutoresizingMaskIntoConstraints = false
 
+            scrollView.delegate = delegate
+
             scrollView.bounces = true
             scrollView.alwaysBounceVertical = true
-            
+
             scrollView.showsVerticalScrollIndicator = false
             scrollView.showsHorizontalScrollIndicator = false
 
