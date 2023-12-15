@@ -11,7 +11,8 @@ protocol HourlyForecastAdapterDelegate: AnyObject { }
 
 final class HourlyForecastAdapter: NSObject {
 
-    var forecast: [(time: String, temperature: Int)]?
+    var forecast: HourlyForecastModel?
+    private let weatherPhotoService = WeatherPhotoService()
 
     weak var delegate: HourlyForecastAdapterDelegate?
 
@@ -20,7 +21,7 @@ final class HourlyForecastAdapter: NSObject {
 extension HourlyForecastAdapter: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        forecast?.count ?? 0
+        forecast?.list.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -28,9 +29,35 @@ extension HourlyForecastAdapter: UICollectionViewDataSource {
             return .init()
         }
 
-        let (time, temperature) = forecast[indexPath.row]
+        let weatherID = forecast.list[indexPath.row].weather[0].id
 
-        cell.configure(time: time, temperature: temperature)
+
+        let temperature = forecast.list[indexPath.row].main.temp
+
+        // "2022-08-30 17:00:00". Drop 8 means get time only
+        let timeIndex = 8
+
+        let timeRaw = String(forecast.list[indexPath.row].dtTxt.suffix(timeIndex))
+
+        let stringToDateFormatter = DateFormatter()
+        stringToDateFormatter.dateFormat = "HH:mm:ss"
+
+        let timeDate = stringToDateFormatter.date(from: timeRaw)!
+
+        let dateToStringFormatter = DateFormatter()
+        dateToStringFormatter.dateFormat = "H"
+        dateToStringFormatter.locale = .autoupdatingCurrent
+
+        let timeString = dateToStringFormatter.string(from: timeDate)
+
+        cell.temperature = temperature
+        cell.time = timeString
+
+        weatherPhotoService.getPhoto(from: weatherID) { weatherConditionImage in
+            DispatchQueue.main.async {
+                cell.weatherConditionImage = weatherConditionImage
+            }
+        }
 
         return cell
     }

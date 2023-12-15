@@ -10,7 +10,29 @@ import UIKit
 final class CityWeatherHourlyForecastCell: UICollectionViewCell {
 
     private lazy var timeLabel = UILabel()
+    private lazy var weatherConditionImageView = UIImageView()
     private lazy var temperatureLabel = UILabel()
+
+    var time: String? {
+        didSet {
+            guard let time else { return }
+            timeLabel.text = time
+        }
+    }
+
+    var weatherConditionImage: UIImage? {
+        didSet {
+            guard let weatherConditionImage else { return }
+            weatherConditionImageView.image = weatherConditionImage
+        }
+    }
+
+    var temperature: Double? {
+        didSet {
+            guard let temperature else { return }
+            temperatureLabel.text = "\(String(format: "%.1f", temperature))º"
+        }
+    }
 
     // MARK: - Init
 
@@ -22,13 +44,6 @@ final class CityWeatherHourlyForecastCell: UICollectionViewCell {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-    }
-
-    // MARK: - Configuration
-
-    func configure(time: String, temperature: Int) {
-        timeLabel.text = time
-        temperatureLabel.text = "\(temperature)º"
     }
 
 }
@@ -44,8 +59,18 @@ private extension CityWeatherHourlyForecastCell {
 
             label.textColor = .white
             label.font = .systemFont(ofSize: 16, weight: .light)
+            label.textAlignment = .center
 
             return label
+        }()
+
+        weatherConditionImageView = {
+            let imageView = UIImageView()
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+
+            imageView.tintColor = .white
+
+            return imageView
         }()
 
         temperatureLabel = {
@@ -53,6 +78,7 @@ private extension CityWeatherHourlyForecastCell {
             label.translatesAutoresizingMaskIntoConstraints = false
 
             label.textColor = .white
+            label.textAlignment = .center
 
             return label
         }()
@@ -67,6 +93,7 @@ private extension CityWeatherHourlyForecastCell {
         ])
 
         contentView.addSubview(timeLabel)
+        contentView.addSubview(weatherConditionImageView)
         contentView.addSubview(temperatureLabel)
 
         NSLayoutConstraint.activate([
@@ -74,10 +101,17 @@ private extension CityWeatherHourlyForecastCell {
             timeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             timeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
 
-            temperatureLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: Constraint.spacer),
-            temperatureLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constraint.leading),
-            temperatureLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constraint.trailing),
-            temperatureLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Constraint.bottom)
+            weatherConditionImageView.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: Constraint.spacer),
+            weatherConditionImageView.heightAnchor.constraint(equalToConstant: 36),
+            weatherConditionImageView.widthAnchor.constraint(equalTo: weatherConditionImageView.heightAnchor),
+            weatherConditionImageView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor),
+            weatherConditionImageView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor),
+            weatherConditionImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+
+            temperatureLabel.topAnchor.constraint(equalTo: weatherConditionImageView.bottomAnchor, constant: Constraint.spacer),
+            temperatureLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            temperatureLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            temperatureLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 
@@ -88,10 +122,6 @@ private extension CityWeatherHourlyForecastCell {
 private extension CityWeatherHourlyForecastCell {
 
     enum Constraint {
-        static let leading: CGFloat = 8
-        static let top: CGFloat = 8
-        static let trailing: CGFloat = -8
-        static let bottom: CGFloat = -8
         static let spacer: CGFloat = 8
     }
 

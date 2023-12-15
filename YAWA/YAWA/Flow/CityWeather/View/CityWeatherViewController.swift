@@ -9,9 +9,9 @@ import UIKit
 
 protocol CityWeatherViewInput: AnyObject {
 
-    func showSummary(for city: String)
+    func showSummary(forecast: WeatherModel?, weatherConditionImage: UIImage?)
     func showBackground()
-    func showHourlyForecast(forecast: [(time: String, temperature: Int)]?)
+    func showHourlyForecast(forecast: HourlyForecastModel?)
 
 }
 
@@ -54,12 +54,12 @@ extension CityWeatherViewController: HourlyForecastAdapterDelegate { }
 
 extension CityWeatherViewController: CityWeatherViewInput {
 
-    func showSummary(for city: String) {
-        summaryView = build.createSummaryView(cityName: city, weatherConditionImage: UIImage(systemName: "sun.max.fill")!, weatherConditionDescription: "Sunny", temperatureRange: (-18)...(-14))
+    func showSummary(forecast: WeatherModel?, weatherConditionImage: UIImage?) {
+        summaryView = build.createSummaryView(forecast: forecast, weatherConditionImage: weatherConditionImage)
         contentView.addSubview(summaryView)
 
         NSLayoutConstraint.activate([
-            summaryView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            summaryView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
             summaryView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             summaryView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
         ])
@@ -69,7 +69,7 @@ extension CityWeatherViewController: CityWeatherViewInput {
         view.layer.addSublayer(build.createBackgroundGradient())
     }
 
-    func showHourlyForecast(forecast: [(time: String, temperature: Int)]?) {
+    func showHourlyForecast(forecast: HourlyForecastModel?) {
         hourlyForecastAdapter.forecast = forecast
         hourlyForecastCollectionView = build.createHourlyForecastCollectionView(delegate: hourlyForecastAdapter, dataSource: hourlyForecastAdapter)
         hourlyForecastView = build.createHourlyForecastView(collectionView: hourlyForecastCollectionView)

@@ -11,10 +11,12 @@ struct CityWeatherConfigurator {
 
     static func configure() -> UIViewController {
         let view = CityWeatherViewController()
-        let presenter = CityWeatherPresenter()
+        let networkService = NetworkServiceImpl.shared
+        let weatherPhotoService = WeatherPhotoService()
+
+        let presenter = CityWeatherPresenter(view: view, networkService: networkService, weatherPhotoService: weatherPhotoService)
 
         view.presenter = presenter
-        presenter.view = view
 
         return view
     }

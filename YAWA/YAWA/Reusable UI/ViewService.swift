@@ -40,14 +40,34 @@ final class ViewService {
             let view = UIView()
             view.translatesAutoresizingMaskIntoConstraints = false
 
-
             return view
         }()
 
         return contentView
     }
 
-    func createSummaryView(cityName: String, weatherConditionImage: UIImage, weatherConditionDescription: String, temperatureRange: ClosedRange<Int>) -> UIView {
+    func createSummaryView(forecast: WeatherModel? = nil, weatherConditionImage: UIImage? = nil) -> UIView {
+        let cityName: String
+        let weatherConditionDescription: String
+        let humidity: String
+        let temperatureRange: String
+        let currentTemperature: String
+
+        if let forecast {
+            cityName = forecast.name
+            weatherConditionDescription = forecast.weather[0].description
+            humidity = "Humidity: \(forecast.main.humidity)%"
+            temperatureRange = "\(forecast.main.tempMin)º — \(forecast.main.tempMax)º"
+            currentTemperature = "\(String(format: "%.1f", forecast.main.temp))º"
+        }
+        else {
+            cityName = "—"
+            weatherConditionDescription = "—"
+            humidity = "Humidity: —%"
+            temperatureRange = "-º — -º"
+            currentTemperature = "—"
+        }
+
         lazy var contentView: UIView = {
             let view = UIView()
             view.translatesAutoresizingMaskIntoConstraints = false
@@ -57,6 +77,8 @@ final class ViewService {
 
             view.layer.addSublayer(gradientLayer)
 
+            view.layer.borderWidth = 2
+            view.layer.borderColor = UIColor.white.cgColor
 
             view.layer.cornerRadius = 15
             view.layer.cornerCurve = .continuous
@@ -119,9 +141,20 @@ final class ViewService {
             let label = UILabel()
             label.translatesAutoresizingMaskIntoConstraints = false
 
-            label.text = "-16º"
+            label.text = currentTemperature
             label.textColor = .white
             label.font = UIFont.systemFont(ofSize: 32, weight: .bold)
+
+            return label
+        }()
+
+        lazy var humidityLabel: UILabel = {
+            let label = UILabel()
+            label.translatesAutoresizingMaskIntoConstraints = false
+
+            label.text = humidity
+            label.textColor = .white
+            label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
 
             return label
         }()
@@ -130,7 +163,7 @@ final class ViewService {
             let label = UILabel()
             label.translatesAutoresizingMaskIntoConstraints = false
 
-            label.text = "\(temperatureRange.lowerBound)º — \(temperatureRange.upperBound)º"
+            label.text = temperatureRange
             label.textColor = .white
             label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
 
@@ -142,6 +175,7 @@ final class ViewService {
         contentView.addSubview(weatherConditionImageView)
         contentView.addSubview(weatherConditionDescriptionLabel)
         contentView.addSubview(currentTemperatureLabel)
+        contentView.addSubview(humidityLabel)
         contentView.addSubview(temperatureRangeLabel)
 
         NSLayoutConstraint.activate([
@@ -153,6 +187,7 @@ final class ViewService {
             timeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constraint.trailing),
 
             cityLabel.trailingAnchor.constraint(lessThanOrEqualTo: timeLabel.leadingAnchor, constant: Constraint.spacer),
+            timeLabel.leadingAnchor.constraint(greaterThanOrEqualTo: cityLabel.trailingAnchor, constant: Constraint.spacer),
 
             weatherConditionImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             weatherConditionImageView.topAnchor.constraint(equalTo: cityLabel.bottomAnchor, constant: 40),
@@ -165,10 +200,16 @@ final class ViewService {
             currentTemperatureLabel.centerXAnchor.constraint(equalTo: weatherConditionImageView.centerXAnchor),
             currentTemperatureLabel.topAnchor.constraint(equalTo: weatherConditionDescriptionLabel.bottomAnchor, constant: Constraint.spacer),
 
+            humidityLabel.topAnchor.constraint(equalTo: currentTemperatureLabel.bottomAnchor, constant: Constraint.spacer),
+            humidityLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constraint.leading),
+            humidityLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Constraint.bottom),
+
             temperatureRangeLabel.topAnchor.constraint(equalTo: currentTemperatureLabel.bottomAnchor, constant: Constraint.spacer),
-            temperatureRangeLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: Constraint.leading),
             temperatureRangeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constraint.trailing),
-            temperatureRangeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Constraint.bottom)
+            temperatureRangeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Constraint.bottom),
+
+            temperatureRangeLabel.leadingAnchor.constraint(greaterThanOrEqualTo: humidityLabel.trailingAnchor, constant: Constraint.spacer),
+            humidityLabel.trailingAnchor.constraint(lessThanOrEqualTo: temperatureRangeLabel.leadingAnchor, constant: Constraint.spacer)
         ])
 
         return contentView
@@ -185,7 +226,7 @@ final class ViewService {
 
             collectionView.backgroundColor = .clear
 
-            collectionView.contentInset = .init(top: 8, left: 8, bottom: 8, right: 8)
+            collectionView.contentInset = .init(top: 8, left: Constraint.leading, bottom: 8, right: Constraint.leading)
 
             collectionView.delegate = delegate
             collectionView.dataSource = dataSource
@@ -214,6 +255,9 @@ final class ViewService {
             view.layer.cornerRadius = 15
             view.layer.cornerCurve = .continuous
 
+            view.layer.borderColor = UIColor.white.cgColor
+            view.layer.borderWidth = 2
+
             view.clipsToBounds = true
 
             return view
@@ -221,7 +265,7 @@ final class ViewService {
 
         contentView.addSubview(collectionView)
 
-        let collectionViewHeightConstraint = collectionView.heightAnchor.constraint(equalToConstant: 150)
+        let collectionViewHeightConstraint = collectionView.heightAnchor.constraint(equalToConstant: 120)
         collectionViewHeightConstraint.priority = UILayoutPriority(50)
 
         NSLayoutConstraint.activate([
