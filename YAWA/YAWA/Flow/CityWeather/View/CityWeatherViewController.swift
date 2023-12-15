@@ -17,6 +17,7 @@ protocol CityWeatherViewInput: AnyObject {
 
 final class CityWeatherViewController: UIViewController {
 
+    private var gradientLayer = CAGradientLayer()
     private var scrollView = UIScrollView()
     private var contentView = UIView()
     private var summaryView = UIView()
@@ -39,7 +40,15 @@ extension CityWeatherViewController {
         super.viewDidLoad()
         hourlyForecastAdapter.delegate = self
         presenter?.getBackground()
-        configureScrollView()
+        presenter?.getCity()
+        presenter?.getForecast()
+
+        layout()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        presenter?.getBackground()
         presenter?.getCity()
         presenter?.getForecast()
     }
@@ -55,8 +64,11 @@ extension CityWeatherViewController: HourlyForecastAdapterDelegate { }
 extension CityWeatherViewController: CityWeatherViewInput {
 
     func showSummary(forecast: WeatherModel?, weatherConditionImage: UIImage?) {
+        
+        let oldView = summaryView
         summaryView = build.createSummaryView(forecast: forecast, weatherConditionImage: weatherConditionImage)
         contentView.addSubview(summaryView)
+        oldView.removeFromSuperview()
 
         NSLayoutConstraint.activate([
             summaryView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
@@ -66,14 +78,23 @@ extension CityWeatherViewController: CityWeatherViewInput {
     }
 
     func showBackground() {
-        view.layer.addSublayer(build.createBackgroundGradient())
+        let oldLayer = gradientLayer
+        gradientLayer = build.createBackgroundGradient()
+
+        view.layer.insertSublayer(gradientLayer, at: 0)
+        oldLayer.removeFromSuperlayer()
+        print(view.layer.sublayers!.count)
     }
 
     func showHourlyForecast(forecast: HourlyForecastModel?) {
         hourlyForecastAdapter.forecast = forecast
+
         hourlyForecastCollectionView = build.createHourlyForecastCollectionView(delegate: hourlyForecastAdapter, dataSource: hourlyForecastAdapter)
+
+        let oldView = hourlyForecastView
         hourlyForecastView = build.createHourlyForecastView(collectionView: hourlyForecastCollectionView)
         contentView.addSubview(hourlyForecastView)
+        oldView.removeFromSuperview()
 
         NSLayoutConstraint.activate([
             hourlyForecastView.topAnchor.constraint(equalTo: summaryView.bottomAnchor, constant: 16),
@@ -89,8 +110,15 @@ extension CityWeatherViewController: CityWeatherViewInput {
 
 private extension CityWeatherViewController {
 
+    func layout() {
+        configureScrollView()
+
+        showSummary(forecast: nil, weatherConditionImage: nil)
+        showHourlyForecast(forecast: nil)
+    }
+
     func configureScrollView() {
-        scrollView = build.createScrollView()
+        scrollView = build.createScrollView(delegate: scrollViewAdapter)
         view.addSubview(scrollView)
 
         NSLayoutConstraint.activate([
