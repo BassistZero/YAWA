@@ -42,7 +42,8 @@ final class WeatherPhotoService {
 
     func getPhoto(from weatherCode: Int, completion: @escaping (UIImage) -> Void) {
         var lightOrDark: String {
-            return UIScreen.main.traitCollection.userInterfaceStyle == .light ? "d" : "n"
+            let currentHour = Calendar.current.component(.hour, from: Date())
+            return (8...18).contains(currentHour) ? "d" : "n"
         }
 
         let iconIndex: String
