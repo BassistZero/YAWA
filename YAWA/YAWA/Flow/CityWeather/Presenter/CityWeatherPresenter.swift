@@ -14,6 +14,9 @@ protocol CityWeatherPresenterDelegate: AnyObject {
 
 final class CityWeatherPresenter {
 
+    typealias SummaryForecastData = (forecast: WeatherModel, weatherConditionImage: UIImage)
+    typealias HourlyForecastData = HourlyForecastModel
+
     init(view: CityWeatherViewInput, networkService: NetworkService, weatherPhotoService: WeatherPhotoService, locationService: LocationService) {
         self.view = view
         self.networkService = networkService
@@ -28,9 +31,12 @@ final class CityWeatherPresenter {
     private let weatherPhotoService: WeatherPhotoService
     private let locationService: LocationService
 
+    private var summaryForecastData: SummaryForecastData?
+    private var hourlyForecastData: HourlyForecastData?
+
 
     func getCity(completion: (() -> Void)? = nil) {
-        view?.showSummary(forecast: nil, weatherConditionImage: nil)
+        view?.showSummary(forecast: summaryForecastData?.forecast, weatherConditionImage: summaryForecastData?.weatherConditionImage)
 
         self.locationService.requestPermission()
 
@@ -45,7 +51,7 @@ final class CityWeatherPresenter {
     }
 
     func getForecast(completion: (() -> Void)? = nil) {
-        view?.showHourlyForecast(forecast: nil)
+        view?.showHourlyForecast(forecast: hourlyForecastData)
 
         DispatchQueue.global(qos: .background).async {
             completion?()
@@ -64,8 +70,9 @@ extension CityWeatherPresenter: CityWeatherPresenterDelegate {
             self.locationService.getCurrentLocation { location in
                 self.networkService.loadCurrentWeather(location: location) { weather in
                     let weatherConditionImage = self.weatherPhotoService.getNativePhoto(from: weather.weather[0].id)
+                    self.summaryForecastData = (weather, weatherConditionImage)
                     DispatchQueue.main.async {
-                        self.view?.showSummary(forecast: weather, weatherConditionImage: weatherConditionImage)
+                        self.view?.showSummary(forecast: self.summaryForecastData?.forecast, weatherConditionImage: self.summaryForecastData?.weatherConditionImage)
                     }
                 }
             }
@@ -76,8 +83,9 @@ extension CityWeatherPresenter: CityWeatherPresenterDelegate {
         getForecast {
             self.locationService.getCurrentLocation { location in
                 self.networkService.loadCurrentForecast(location: location) { forecast in
-                    DispatchQueue.main.async {
-                        self.view?.showHourlyForecast(forecast: forecast)
+                    self.hourlyForecastData = forecast
+                    DispatchQueue.main.asyncAndWait {
+                        self.view?.showHourlyForecast(forecast: self.hourlyForecastData)
                     }
                 }
             }
