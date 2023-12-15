@@ -31,8 +31,20 @@ final class CityWeatherPresenter {
     private let weatherPhotoService: WeatherPhotoService
     private let locationService: LocationService
 
-    private var summaryForecastData: SummaryForecastData?
-    private var hourlyForecastData: HourlyForecastData?
+    private var summaryForecastData: SummaryForecastData? {
+        didSet {
+            DispatchQueue.main.async {
+                self.view?.showSummary(forecast: self.summaryForecastData?.forecast, weatherConditionImage: self.summaryForecastData?.weatherConditionImage)
+            }
+        }
+    }
+    private var hourlyForecastData: HourlyForecastData? {
+        didSet {
+            DispatchQueue.main.asyncAndWait {
+                self.view?.showHourlyForecast(forecast: self.hourlyForecastData)
+            }
+        }
+    }
 
 
     func getCity(completion: (() -> Void)? = nil) {
@@ -71,9 +83,6 @@ extension CityWeatherPresenter: CityWeatherPresenterDelegate {
                 self.networkService.loadCurrentWeather(location: location) { weather in
                     let weatherConditionImage = self.weatherPhotoService.getNativePhoto(from: weather.weather[0].id)
                     self.summaryForecastData = (weather, weatherConditionImage)
-                    DispatchQueue.main.async {
-                        self.view?.showSummary(forecast: self.summaryForecastData?.forecast, weatherConditionImage: self.summaryForecastData?.weatherConditionImage)
-                    }
                 }
             }
         }
@@ -84,9 +93,6 @@ extension CityWeatherPresenter: CityWeatherPresenterDelegate {
             self.locationService.getCurrentLocation { location in
                 self.networkService.loadCurrentForecast(location: location) { forecast in
                     self.hourlyForecastData = forecast
-                    DispatchQueue.main.asyncAndWait {
-                        self.view?.showHourlyForecast(forecast: self.hourlyForecastData)
-                    }
                 }
             }
         }
