@@ -19,13 +19,22 @@ final class MainTabBarController: UITabBarController {
         cityWeatherModule.tabBarItem.title = "Current"
         cityWeatherModule.tabBarItem.image = UIImage(systemName: "mappin.and.ellipse")
 
+        let allCitiesWeatherModule = AllCitiesWeatherConfigurator.configure()
+        let allCitiesWeatherModuleWrapper = UINavigationController(rootViewController: allCitiesWeatherModule)
 
-        let allCitiesWeatherModule = UINavigationController(rootViewController: AllCitiesWeatherConfigurator.configure())
         allCitiesWeatherModule.title = "Cities"
         allCitiesWeatherModule.tabBarItem.title = "Cities"
         allCitiesWeatherModule.tabBarItem.image = UIImage(systemName: "building.2.fill")
 
-        viewControllers = [allCitiesWeatherModule, cityWeatherModule]
+        allCitiesWeatherModuleWrapper.navigationBar.tintColor = .textColor
+        allCitiesWeatherModuleWrapper.navigationBar.prefersLargeTitles = true
+
+        let searchController = UISearchController(searchResultsController: nil)
+        allCitiesWeatherModule.navigationItem.searchController = searchController
+        allCitiesWeatherModule.navigationItem.hidesSearchBarWhenScrolling = false
+
+
+        viewControllers = [cityWeatherModule, allCitiesWeatherModuleWrapper]
     }
     
 }

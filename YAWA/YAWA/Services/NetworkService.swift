@@ -116,7 +116,7 @@ private extension NetworkServiceImpl {
         getJSONData(as: CityCoordinatesModel.self, from: url) { cityCoordinates in
             switch cityCoordinates {
             case .success(let cityCoordinates):
-                let cityCoordinates = cityCoordinates[0]
+                guard let cityCoordinates = cityCoordinates.first else { return }
                 let coordinates = CLLocationCoordinate2D(latitude: cityCoordinates.lat, longitude: cityCoordinates.lon)
                 completion(coordinates)
             case .failure(_):

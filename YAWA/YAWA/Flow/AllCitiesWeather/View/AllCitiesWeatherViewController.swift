@@ -31,6 +31,8 @@ final class AllCitiesWeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationItem.searchController?.searchBar.delegate = self
+
         configureTableView()
         configureBackground()
     }
@@ -105,5 +107,22 @@ private extension AllCitiesWeatherViewController {
 // MARK: - AllCitiesWeatherViewInput
 
 extension AllCitiesWeatherViewController: AllCitiesWeatherViewInput {
+
+}
+
+extension AllCitiesWeatherViewController: UISearchBarDelegate {
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let text = searchBar.text else { return }
+
+        let vc = CityWeatherConfigurator.configure(with: text)
+        present(vc, animated: true)
+
+        searchBar.text = ""
+    }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        // FIXME: - Networking autocomplete
+    }
 
 }
