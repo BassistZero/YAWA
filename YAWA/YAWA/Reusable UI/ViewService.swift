@@ -57,7 +57,7 @@ final class ViewService {
 
         if let forecast {
             cityName = forecast.name
-            weatherConditionDescription = forecast.weather[0].description
+            weatherConditionDescription = forecast.weather.first?.description ?? "None"
             humidity = "Humidity: \(forecast.main.humidity)%"
             temperatureRange = "\(forecast.main.tempMin)º — \(forecast.main.tempMax)º"
             currentTemperature = "\(String(format: "%.1f", forecast.main.temp))º"

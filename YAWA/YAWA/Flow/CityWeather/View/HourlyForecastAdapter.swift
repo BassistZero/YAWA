@@ -29,7 +29,7 @@ extension HourlyForecastAdapter: UICollectionViewDataSource {
             return .init()
         }
 
-        let weatherID = forecast.list[indexPath.row].weather[0].id
+        let weatherID = forecast.list[indexPath.row].weather.first?.id
 
 
         let temperature = forecast.list[indexPath.row].main.temp

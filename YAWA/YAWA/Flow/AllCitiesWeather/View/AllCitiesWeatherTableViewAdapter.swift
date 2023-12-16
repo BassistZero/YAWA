@@ -34,7 +34,7 @@ extension AllCitiesWeatherTableViewAdapter: UITableViewDataSource {
         if let forecasts, let forecast = forecasts[cities[indexPath.row]] {
             temperatureRange = "\(forecast.main.tempMin)º — \(forecast.main.tempMax)º"
             currentTemperature = "\(String(format: "%.1f", forecast.main.temp))º"
-            weatherID = forecast.weather[0].id
+            weatherID = forecast.weather.first?.id
         }
         else {
             temperatureRange = "-º — -º"

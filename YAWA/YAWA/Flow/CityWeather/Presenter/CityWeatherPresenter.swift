@@ -72,7 +72,7 @@ extension CityWeatherPresenter: CityWeatherPresenterDelegate {
             self.locationService?.getCurrentLocation { location in
                 self.networkService?.loadCurrentWeather(location: location) { weather in
                     self.networkService?.loadCurrentForecast(location: location) { forecast in
-                        guard let weatherConditionImage = self.weatherPhotoService?.getNativePhoto(from: weather.weather[0].id) else { return }
+                        guard let weatherConditionImage = self.weatherPhotoService?.getNativePhoto(from: weather.weather.first?.id) else { return }
                         self.summaryForecastData = (weather, weatherConditionImage)
                         self.hourlyForecastData = forecast
                     }
@@ -89,7 +89,7 @@ private extension CityWeatherPresenter {
         DispatchQueue.global(qos: .background).async {
             self.networkService?.loadCityForecast(city: city) { forecast in
                 self.networkService?.loadCityWeather(city: city) { weather in
-                    guard let weatherConditionImage = self.weatherPhotoService?.getNativePhoto(from: weather.weather[0].id) else { return }
+                    guard let weatherConditionImage = self.weatherPhotoService?.getNativePhoto(from: weather.weather.first?.id) else { return }
                     DispatchQueue.main.async {
                         self.summaryForecastData = (weather, weatherConditionImage)
                         self.hourlyForecastData = forecast
