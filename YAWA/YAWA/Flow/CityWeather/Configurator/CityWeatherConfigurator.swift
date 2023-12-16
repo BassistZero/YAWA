@@ -13,12 +13,16 @@ struct CityWeatherConfigurator {
         let view = CityWeatherViewController()
         let networkService = NetworkServiceImpl.shared
         let weatherPhotoService = WeatherPhotoService()
-        let locationService = LocationService()
-
-        let presenter = CityWeatherPresenter(view: view, networkService: networkService, weatherPhotoService: weatherPhotoService, locationService: locationService)
+        let presenter = CityWeatherPresenter()
 
         view.presenter = presenter
 
+        presenter.view = view
+        presenter.networkService = networkService
+        presenter.weatherPhotoService = weatherPhotoService
+
+            let locationService = LocationService()
+            presenter.locationService = locationService
         return view
     }
 

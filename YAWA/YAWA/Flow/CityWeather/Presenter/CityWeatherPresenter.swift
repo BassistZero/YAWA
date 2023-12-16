@@ -16,19 +16,10 @@ final class CityWeatherPresenter {
     typealias SummaryForecastData = (forecast: WeatherModel, weatherConditionImage: UIImage)
     typealias HourlyForecastData = HourlyForecastModel
 
-    init(view: CityWeatherViewInput, networkService: NetworkService, weatherPhotoService: WeatherPhotoService, locationService: LocationService) {
-        self.view = view
-        self.networkService = networkService
-        self.weatherPhotoService = weatherPhotoService
-        self.locationService = locationService
-
-        locationService.presenter = self
-    }
-
     weak var view: CityWeatherViewInput?
-    private let networkService: NetworkService
-    private let weatherPhotoService: WeatherPhotoService
-    private let locationService: LocationService
+    var networkService: NetworkService?
+    var weatherPhotoService: WeatherPhotoService?
+    var locationService: LocationService?
 
     private var summaryForecastData: SummaryForecastData? {
         didSet {
