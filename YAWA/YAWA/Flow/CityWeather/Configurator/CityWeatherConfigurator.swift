@@ -9,7 +9,7 @@ import UIKit.UIViewController
 
 struct CityWeatherConfigurator {
 
-    static func configure() -> UIViewController {
+    static func configure(with city: String? = nil) -> UIViewController {
         let view = CityWeatherViewController()
         let networkService = NetworkServiceImpl.shared
         let weatherPhotoService = WeatherPhotoService()
@@ -21,8 +21,14 @@ struct CityWeatherConfigurator {
         presenter.networkService = networkService
         presenter.weatherPhotoService = weatherPhotoService
 
+        guard let city else {
             let locationService = LocationService()
             presenter.locationService = locationService
+            return view
+        }
+
+        presenter.city = city
+
         return view
     }
 

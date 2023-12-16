@@ -21,6 +21,8 @@ final class CityWeatherPresenter {
     var weatherPhotoService: WeatherPhotoService?
     var locationService: LocationService?
 
+    var city: String?
+
     private var summaryForecastData: SummaryForecastData? {
         didSet {
             DispatchQueue.main.async {
@@ -37,10 +39,13 @@ final class CityWeatherPresenter {
     }
 
     func requestWeather() {
+        guard let city else {
             locationService?.presenter = self
             locationService?.requestLocationWeather()
+            return
         }
 
+        requestWeather(for: city)
     }
 
     func getViews(completion: (() -> Void)? = nil) {
@@ -76,6 +81,19 @@ extension CityWeatherPresenter: CityWeatherPresenterDelegate {
         }
     }
 
+}
+
+private extension CityWeatherPresenter {
+
+    func requestWeather(for city: String) {
+        DispatchQueue.global(qos: .background).async {
+            self.networkService?.loadCityForecast(city: city) { forecast in
+                self.networkService?.loadCityWeather(city: city) { weather in
+                    guard let weatherConditionImage = self.weatherPhotoService?.getNativePhoto(from: weather.weather[0].id) else { return }
+                    DispatchQueue.main.async {
+                        self.summaryForecastData = (weather, weatherConditionImage)
+                        self.hourlyForecastData = forecast
+                    }
                 }
             }
         }
