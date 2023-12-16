@@ -6,7 +6,9 @@
 //
 
 protocol AllCitiesWeatherViewInput: AnyObject {
-    
+
+    func reloadData()
+
 }
 
 import UIKit
@@ -20,21 +22,18 @@ final class AllCitiesWeatherViewController: UIViewController {
     private let build = ViewService.shared
 
     private let allCitiesWeatherTableViewAdapter = AllCitiesWeatherTableViewAdapter()
-    private let networkService = NetworkServiceImpl.shared
-    private let cities = ["London", "Voronezh", "Miami"]
-    private var forecasts = [String: WeatherModel]() {
-        didSet {
-            allCitiesWeatherTableViewAdapter.forecasts = forecasts
-        }
+
+    // MARK: - Life-Cycle
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadData()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.searchController?.searchBar.delegate = self
-
-        configureTableView()
-        configureBackground()
+        configure()
+        presenter?.viewDidLoad()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -42,10 +41,6 @@ final class AllCitiesWeatherViewController: UIViewController {
 
         configureBackground()
         configureTableView()
-    }
-
-    func reloadData() {
-        tableView.reloadData()
     }
 
     func configureBackground() {
@@ -61,6 +56,15 @@ final class AllCitiesWeatherViewController: UIViewController {
 // MARK: - Configuration
 
 private extension AllCitiesWeatherViewController {
+
+    func configure() {
+        navigationItem.searchController?.searchBar.delegate = self
+
+        presenter?.adapter = allCitiesWeatherTableViewAdapter
+
+        configureTableView()
+        configureBackground()
+    }
 
     func configureTableView() {
         let oldView = tableView
@@ -88,18 +92,6 @@ private extension AllCitiesWeatherViewController {
         tableView.dataSource = allCitiesWeatherTableViewAdapter
         tableView.delegate = allCitiesWeatherTableViewAdapter
         allCitiesWeatherTableViewAdapter.viewController = self
-        allCitiesWeatherTableViewAdapter.cities = cities
-
-
-        cities.forEach { city in
-            networkService.loadCityWeather(city: city) { weather in
-                self.forecasts.updateValue(weather, forKey: city)
-
-                DispatchQueue.main.async {
-                    self.reloadData()
-                }
-            }
-        }
     }
 
 }
@@ -107,6 +99,10 @@ private extension AllCitiesWeatherViewController {
 // MARK: - AllCitiesWeatherViewInput
 
 extension AllCitiesWeatherViewController: AllCitiesWeatherViewInput {
+
+    func reloadData() {
+        tableView.reloadData()
+    }
 
 }
 
