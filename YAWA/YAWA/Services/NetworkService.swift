@@ -32,7 +32,12 @@ final class NetworkServiceImpl:NetworkService {
         let url = URL(string: "\(baseURL)/forecast/?lat=\(location.latitude)&lon=\(location.longitude)&exclude=current,minutely,alerts&units=metric&cnt=9&appid=\(appid)")!
 
         getJSONData(as: HourlyForecastModel.self, from: url) { forecast in
-            completion(forecast)
+            switch forecast {
+            case .success(let forecast):
+                completion(forecast)
+            case .failure(_):
+                break
+            }
         }
     }
 
@@ -42,7 +47,12 @@ final class NetworkServiceImpl:NetworkService {
         let url = URL(string: "\(baseURL)/weather?lat=\(location.latitude)&lon=\(location.longitude)&exclude=current,minutely,hourly,alerts&units=metric&appid=\(appid)")!
 
         getJSONData(as: WeatherModel.self, from: url) { weather in
-            completion(weather)
+            switch weather {
+            case .success(let weather):
+                completion(weather)
+            case .failure(_):
+                break
+            }
         }
     }
 
@@ -77,16 +87,23 @@ final class NetworkServiceImpl:NetworkService {
 
 private extension NetworkServiceImpl {
 
-        func getJSONData<T: Decodable>(as type: T.Type, from url: URL, completion: @escaping (T) -> Void) {
+        func getJSONData<T: Decodable>(as type: T.Type, from url: URL, completion: @escaping (Result<T, NetworkError>) -> Void) {
             let request = URLRequest(url: url)
     
             let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
                 let jsonDecoder = JSONDecoder()
                 jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
     
-                let data = try! jsonDecoder.decode(T.self, from: data!)
-    
-                completion(data)
+                guard let data else {
+                    completion(Result.failure(NetworkError.noData))
+                    return
+                }
+                guard let decodedData = try? jsonDecoder.decode(T.self, from: data) else {
+                    completion(Result.failure(NetworkError.corruptedJSON))
+                    return
+                }
+
+                completion(Result.success(decodedData))
             }
     
             dataTask.resume()
@@ -97,10 +114,24 @@ private extension NetworkServiceImpl {
         let url = URL(string: "https://api.openweathermap.org/geo/1.0/direct?q=\(city)&appid=5794a90661fd4a193a5a4e22da9f6945")!
 
         getJSONData(as: CityCoordinatesModel.self, from: url) { cityCoordinates in
-            let cityCoordinates = cityCoordinates[0]
-            let coordinates = CLLocationCoordinate2D(latitude: cityCoordinates.lat, longitude: cityCoordinates.lon)
-            completion(coordinates)
+            switch cityCoordinates {
+            case .success(let cityCoordinates):
+                let cityCoordinates = cityCoordinates[0]
+                let coordinates = CLLocationCoordinate2D(latitude: cityCoordinates.lat, longitude: cityCoordinates.lon)
+                completion(coordinates)
+            case .failure(_):
+                break
+            }
+
         }
     }
 }
 
+// MARK: - NetworkError
+
+enum NetworkError: Error {
+
+    case noData
+    case corruptedJSON
+
+}
