@@ -288,7 +288,7 @@ final class ViewService {
         return contentView
     }
 
-    func createAddToFavoritesButton(action: UIAction) -> UIButton {
+    func createAddToFavoritesButton(title: String, action: UIAction) -> UIButton {
         lazy var addToFavoritesButton: UIButton = {
             let button = UIButton(primaryAction: action)
             button.translatesAutoresizingMaskIntoConstraints = false
@@ -299,9 +299,12 @@ final class ViewService {
             button.layer.cornerRadius = 10
             button.layer.cornerCurve = .continuous
 
+            button.setTitle(title, for: .normal)
+
             button.clipsToBounds = true
 
-            button.setTitle("Add to Favorites", for: .normal)
+            button.tintColor = .textColor
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .regular)
 
             return button
         }()

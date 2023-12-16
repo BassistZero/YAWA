@@ -20,6 +20,7 @@ final class CityWeatherPresenter {
     var networkService: NetworkService?
     var weatherPhotoService: WeatherPhotoService?
     var locationService: LocationService?
+    var storageService: StorageService?
 
     var city: String?
 
@@ -38,6 +39,14 @@ final class CityWeatherPresenter {
         }
     }
 
+    private var isSaved: Bool {
+        configureIsSaved()
+    }
+
+    private var title: String {
+        isSaved ? "Remove City" : "Save City"
+    }
+
     func requestWeather() {
         guard let city else {
             locationService?.presenter = self
@@ -49,11 +58,14 @@ final class CityWeatherPresenter {
     }
 
     func getViews(completion: (() -> Void)? = nil) {
+
         view?.showBackground()
         view?.showSummary(forecast: summaryForecastData?.forecast, weatherConditionImage: summaryForecastData?.weatherConditionImage)
         view?.showHourlyForecast(forecast: hourlyForecastData)
-        view?.showAddToFavoritesButton(action: .init(handler: { _ in
-            print("pressed")
+        view?.updateAddToFavoritesButton(title: title)
+        view?.showAddToFavoritesButton(title: title, action: .init(handler: { _ in
+            self.isSaved ? self.storageService?.removeCity(city: self.city) : self.storageService?.saveCity(city: self.city)
+            self.view?.updateAddToFavoritesButton(title: self.title)
         }))
 
         self.locationService?.requestPermission()
@@ -62,6 +74,17 @@ final class CityWeatherPresenter {
             completion?()
         }
 
+    }
+
+}
+
+
+// MARK: - StorageServiceDelegate
+
+extension CityWeatherPresenter: StorageServiceDelegate {
+
+    func storageUpdated() {
+        getViews()
     }
 
 }
@@ -86,6 +109,8 @@ extension CityWeatherPresenter: CityWeatherPresenterDelegate {
 
 }
 
+// MARK: - Private Methods
+
 private extension CityWeatherPresenter {
 
     func requestWeather(for city: String) {
@@ -100,6 +125,18 @@ private extension CityWeatherPresenter {
                 }
             }
         }
+    }
+
+    func configureIsSaved() -> Bool {
+        let isSaved: Bool
+
+        if let saveIsSaved = storageService?.isCitySaved(city: city) {
+            isSaved = saveIsSaved
+        } else {
+            isSaved = false
+        }
+
+        return isSaved
     }
 
 }

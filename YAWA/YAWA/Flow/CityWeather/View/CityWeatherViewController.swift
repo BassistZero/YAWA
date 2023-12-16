@@ -12,7 +12,8 @@ protocol CityWeatherViewInput: AnyObject {
     func showSummary(forecast: WeatherModel?, weatherConditionImage: UIImage?)
     func showBackground()
     func showHourlyForecast(forecast: HourlyForecastModel?)
-    func showAddToFavoritesButton(action: UIAction)
+    func showAddToFavoritesButton(title: String, action: UIAction)
+    func updateAddToFavoritesButton(title: String)
 
 }
 
@@ -76,8 +77,12 @@ extension CityWeatherViewController: CityWeatherViewInput {
         configureHourlyForecast(forecast: forecast)
     }
 
-    func showAddToFavoritesButton(action: UIAction) {
-        configureAddToFavoritesButton(action: action)
+    func showAddToFavoritesButton(title: String, action: UIAction) {
+        configureAddToFavoritesButton(title: title, action: action)
+    }
+
+    func updateAddToFavoritesButton(title: String) {
+        addToFavoritesButton.setTitle(title, for: .normal)
     }
 
 }
@@ -164,11 +169,11 @@ private extension CityWeatherViewController {
         ])
     }
 
-    func configureAddToFavoritesButton(action: UIAction) {
+    func configureAddToFavoritesButton(title: String, action: UIAction) {
         guard presenter?.city != nil else { return }
         
         let oldView = addToFavoritesButton
-        addToFavoritesButton = build.createAddToFavoritesButton(action: action)
+        addToFavoritesButton = build.createAddToFavoritesButton(title: title, action: action)
         contentView.addSubview(addToFavoritesButton)
         oldView.removeFromSuperview()
 
