@@ -62,4 +62,20 @@ extension AllCitiesWeatherTableViewAdapter: UITableViewDelegate {
         viewController?.present(vc, animated: true)
     }
 
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+
+        UIView.animate(withDuration: 0.4) {
+            cell.transform = .init(scaleX: 0.95, y: 0.95)
+        }
+    }
+
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+
+        UIView.animate(withDuration: 0.4) {
+            cell.transform = .identity
+        }
+    }
+
 }
