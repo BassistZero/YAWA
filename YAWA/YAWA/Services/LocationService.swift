@@ -8,7 +8,12 @@
 import CoreLocation
 
 final class LocationService: NSObject {
+    
     private let manager = CLLocationManager()
+
+    var status: CLAuthorizationStatus {
+        manager.authorizationStatus
+    }
 
     weak var presenter: CityWeatherPresenterDelegate?
 
@@ -26,11 +31,18 @@ final class LocationService: NSObject {
         completion(location.coordinate)
     }
 
-}
+    func requestLocationWeather(for status: CLAuthorizationStatus? = nil) {
+        let currentStatus: CLAuthorizationStatus?
 
-// MARK: - Private Methods
+        currentStatus = status != nil ? status : self.status
 
-private extension LocationService {
+        switch currentStatus {
+        case .authorizedWhenInUse, .authorizedAlways:
+            presenter?.getLocationWeather()
+        default:
+            break
+        }
+    }
 
 }
 
@@ -38,23 +50,8 @@ private extension LocationService {
 
 extension LocationService: CLLocationManagerDelegate {
 
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        // FIXME - Handle something
-    }
-
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        // FIXME - Handle the error
-    }
-
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        switch status {
-        case .authorizedWhenInUse, .authorizedAlways:
-            presenter?.getCityWeather()
-            presenter?.getForecastWeather()
-            manager.requestLocation()
-        default:
-            break
-        }
+        requestLocationWeather(for: status)
     }
 
 }

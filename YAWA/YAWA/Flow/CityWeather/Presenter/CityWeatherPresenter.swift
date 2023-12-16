@@ -8,8 +8,7 @@
 import UIKit.UIViewController
 
 protocol CityWeatherPresenterDelegate: AnyObject {
-    func getCityWeather()
-    func getForecastWeather()
+    func getLocationWeather()
 }
 
 final class CityWeatherPresenter {
@@ -40,30 +39,25 @@ final class CityWeatherPresenter {
     }
     private var hourlyForecastData: HourlyForecastData? {
         didSet {
-            DispatchQueue.main.asyncAndWait {
+            DispatchQueue.main.async {
                 self.view?.showHourlyForecast(forecast: self.hourlyForecastData)
             }
         }
     }
 
-
-    func getCity(completion: (() -> Void)? = nil) {
-        view?.showSummary(forecast: summaryForecastData?.forecast, weatherConditionImage: summaryForecastData?.weatherConditionImage)
-
-        self.locationService.requestPermission()
-
-        DispatchQueue.global(qos: .background).async {
-            completion?()
+    func requestWeather() {
+            locationService?.presenter = self
+            locationService?.requestLocationWeather()
         }
 
     }
 
-    func getBackground() {
+    func getViews(completion: (() -> Void)? = nil) {
         view?.showBackground()
-    }
-
-    func getForecast(completion: (() -> Void)? = nil) {
+        view?.showSummary(forecast: summaryForecastData?.forecast, weatherConditionImage: summaryForecastData?.weatherConditionImage)
         view?.showHourlyForecast(forecast: hourlyForecastData)
+
+        self.locationService?.requestPermission()
 
         DispatchQueue.global(qos: .background).async {
             completion?()
@@ -77,22 +71,20 @@ final class CityWeatherPresenter {
 
 extension CityWeatherPresenter: CityWeatherPresenterDelegate {
 
-    func getCityWeather() {
-        getCity {
-            self.locationService.getCurrentLocation { location in
-                self.networkService.loadCurrentWeather(location: location) { weather in
-                    let weatherConditionImage = self.weatherPhotoService.getNativePhoto(from: weather.weather[0].id)
-                    self.summaryForecastData = (weather, weatherConditionImage)
+    func getLocationWeather() {
+        getViews {
+            self.locationService?.getCurrentLocation { location in
+                self.networkService?.loadCurrentWeather(location: location) { weather in
+                    self.networkService?.loadCurrentForecast(location: location) { forecast in
+                        guard let weatherConditionImage = self.weatherPhotoService?.getNativePhoto(from: weather.weather[0].id) else { return }
+                        self.summaryForecastData = (weather, weatherConditionImage)
+                        self.hourlyForecastData = forecast
+                    }
                 }
             }
         }
     }
 
-    func getForecastWeather() {
-        getForecast {
-            self.locationService.getCurrentLocation { location in
-                self.networkService.loadCurrentForecast(location: location) { forecast in
-                    self.hourlyForecastData = forecast
                 }
             }
         }

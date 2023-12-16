@@ -36,20 +36,20 @@ final class CityWeatherViewController: UIViewController {
 
 extension CityWeatherViewController {
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter?.requestWeather()
+        presenter?.getViews()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter?.getBackground()
-        presenter?.getCity()
-        presenter?.getForecast()
-
         configure()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        presenter?.getBackground()
-        presenter?.getCity()
-        presenter?.getForecast()
+        presenter?.getViews()
     }
 
 }
