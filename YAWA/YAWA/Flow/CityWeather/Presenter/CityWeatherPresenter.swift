@@ -26,14 +26,14 @@ final class CityWeatherPresenter {
     private var summaryForecastData: SummaryForecastData? {
         didSet {
             DispatchQueue.main.async {
-                self.view?.showSummary(forecast: self.summaryForecastData?.forecast, weatherConditionImage: self.summaryForecastData?.weatherConditionImage)
+                self.getViews()
             }
         }
     }
     private var hourlyForecastData: HourlyForecastData? {
         didSet {
             DispatchQueue.main.async {
-                self.view?.showHourlyForecast(forecast: self.hourlyForecastData)
+                self.getViews()
             }
         }
     }
@@ -52,6 +52,9 @@ final class CityWeatherPresenter {
         view?.showBackground()
         view?.showSummary(forecast: summaryForecastData?.forecast, weatherConditionImage: summaryForecastData?.weatherConditionImage)
         view?.showHourlyForecast(forecast: hourlyForecastData)
+        view?.showAddToFavoritesButton(action: .init(handler: { _ in
+            print("pressed")
+        }))
 
         self.locationService?.requestPermission()
 

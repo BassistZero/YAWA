@@ -12,17 +12,19 @@ protocol CityWeatherViewInput: AnyObject {
     func showSummary(forecast: WeatherModel?, weatherConditionImage: UIImage?)
     func showBackground()
     func showHourlyForecast(forecast: HourlyForecastModel?)
+    func showAddToFavoritesButton(action: UIAction)
 
 }
 
 final class CityWeatherViewController: UIViewController {
 
-    private var gradientLayer = CAGradientLayer()
-    private var scrollView = UIScrollView()
-    private var contentView = UIView()
-    private var summaryView = UIView()
-    private var hourlyForecastView = UIView()
-    private var hourlyForecastCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private lazy var gradientLayer = CAGradientLayer()
+    private lazy var scrollView = UIScrollView()
+    private lazy var contentView = UIView()
+    private lazy var summaryView = UIView()
+    private lazy var hourlyForecastView = UIView()
+    private lazy var hourlyForecastCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private lazy var addToFavoritesButton = UIButton()
 
     private let hourlyForecastAdapter = HourlyForecastAdapter()
     private let scrollViewAdapter = ScrollViewAdapter()
@@ -72,6 +74,10 @@ extension CityWeatherViewController: CityWeatherViewInput {
 
     func showHourlyForecast(forecast: HourlyForecastModel?) {
         configureHourlyForecast(forecast: forecast)
+    }
+
+    func showAddToFavoritesButton(action: UIAction) {
+        configureAddToFavoritesButton(action: action)
     }
 
 }
@@ -154,7 +160,24 @@ private extension CityWeatherViewController {
             hourlyForecastView.topAnchor.constraint(equalTo: summaryView.bottomAnchor, constant: 16),
             hourlyForecastView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             hourlyForecastView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            hourlyForecastView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+//            hourlyForecastView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+    }
+
+    func configureAddToFavoritesButton(action: UIAction) {
+        guard presenter?.city != nil else { return }
+        
+        let oldView = addToFavoritesButton
+        addToFavoritesButton = build.createAddToFavoritesButton(action: action)
+        contentView.addSubview(addToFavoritesButton)
+        oldView.removeFromSuperview()
+
+        NSLayoutConstraint.activate([
+            addToFavoritesButton.topAnchor.constraint(equalTo: hourlyForecastView.bottomAnchor, constant: 16),
+            addToFavoritesButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            addToFavoritesButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            addToFavoritesButton.heightAnchor.constraint(equalToConstant: 30),
+            addToFavoritesButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])
     }
 

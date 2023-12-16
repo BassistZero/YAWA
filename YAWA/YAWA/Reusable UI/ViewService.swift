@@ -288,6 +288,27 @@ final class ViewService {
         return contentView
     }
 
+    func createAddToFavoritesButton(action: UIAction) -> UIButton {
+        lazy var addToFavoritesButton: UIButton = {
+            let button = UIButton(primaryAction: action)
+            button.translatesAutoresizingMaskIntoConstraints = false
+
+            let gradientLayer = createGradientLayer(colors: UIColor.gradientBackground, frame: .init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 200))
+
+            button.layer.addSublayer(gradientLayer)
+            button.layer.cornerRadius = 10
+            button.layer.cornerCurve = .continuous
+
+            button.clipsToBounds = true
+
+            button.setTitle("Add to Favorites", for: .normal)
+
+            return button
+        }()
+
+        return addToFavoritesButton
+    }
+
 }
 
 // MARK: - Constants
