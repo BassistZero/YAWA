@@ -11,7 +11,9 @@ final class WeatherPhotoService {
 
     private let networkService: NetworkService = NetworkServiceImpl.shared
 
-    func getNativePhoto(from weatherCode: Int) -> UIImage {
+    func getNativePhoto(from weatherCode: Int?) -> UIImage {
+        guard let weatherCode else { return UIImage() }
+
         let systemImageName: String
 
         switch weatherCode {
