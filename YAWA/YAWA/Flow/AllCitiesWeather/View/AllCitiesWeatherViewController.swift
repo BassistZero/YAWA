@@ -14,8 +14,10 @@ import UIKit
 final class AllCitiesWeatherViewController: UIViewController {
 
     private var tableView = UITableView()
+    private var gradientLayer = CAGradientLayer()
 
     var presenter: AllCitiesWeatherPresenter?
+    private let build = ViewService.shared
 
     private let allCitiesWeatherTableViewAdapter = AllCitiesWeatherTableViewAdapter()
     private let networkService = NetworkServiceImpl.shared
@@ -29,12 +31,27 @@ final class AllCitiesWeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .primary
+        configureTableView()
+        configureBackground()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        configureBackground()
         configureTableView()
     }
 
     func reloadData() {
         tableView.reloadData()
+    }
+
+    func configureBackground() {
+        let oldLayer = gradientLayer
+        gradientLayer = build.createBackgroundGradient()
+
+        view.layer.insertSublayer(gradientLayer, at: 0)
+        oldLayer.removeFromSuperlayer()
     }
 
 }
@@ -44,17 +61,20 @@ final class AllCitiesWeatherViewController: UIViewController {
 private extension AllCitiesWeatherViewController {
 
     func configureTableView() {
+        let oldView = tableView
         tableView = {
             let tableView = UITableView()
             tableView.translatesAutoresizingMaskIntoConstraints = false
 
             tableView.register(AllCitiesWeatherTableViewCell.self, forCellReuseIdentifier: "\(AllCitiesWeatherTableViewCell.self)")
             tableView.separatorStyle = .none
+            tableView.backgroundColor = .clear
 
             return tableView
         }()
 
         view.addSubview(tableView)
+        oldView.removeFromSuperview()
 
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),

@@ -306,7 +306,7 @@ private extension ViewService {
 
 // MARK: - Helper Methods
 
-private extension ViewService {
+extension ViewService {
 
     func createGradientLayer(colors: [UIColor], frame: CGRect) -> CAGradientLayer {
         let gradientLayer = CAGradientLayer()

@@ -14,6 +14,7 @@ final class AllCitiesWeatherTableViewCell: UITableViewCell {
     private var weatherConditionImageView = UIImageView()
     private var temperatureCurrentLabel = UILabel()
     private var temperatureRangeLabel = UILabel()
+    private let build = ViewService.shared
 
     var cityName: String? {
         didSet {
@@ -64,9 +65,18 @@ private extension AllCitiesWeatherTableViewCell {
             let view = UIView()
             view.translatesAutoresizingMaskIntoConstraints = false
 
-            view.backgroundColor = .primary
+            let gradientLayer = build.createGradientLayer(colors: UIColor.gradientBackground, frame: CGRect(x: 0, y: 0, width: 500, height: 300))
+            gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+            view.layer.addSublayer(gradientLayer)
+
+
             view.layer.cornerRadius = 15
             view.layer.cornerCurve = .continuous
+
+            view.layer.borderColor = UIColor.white.cgColor
+            view.layer.borderWidth = 2
+
+            view.clipsToBounds = true
 
             return view
         }()
@@ -87,6 +97,11 @@ private extension AllCitiesWeatherTableViewCell {
 
             imageView.contentMode = .scaleAspectFit
             imageView.tintColor = .white
+
+            imageView.layer.shadowOffset = .init(width: 3, height: 3)
+            imageView.layer.shadowOpacity = 0.3
+            imageView.layer.shadowColor = UIColor.systemBlack.cgColor
+            imageView.layer.shadowRadius = 7
 
             return imageView
         }()
@@ -110,6 +125,10 @@ private extension AllCitiesWeatherTableViewCell {
 
             return label
         }()
+
+        if let superview = contentView.superview {
+            superview.backgroundColor = .clear
+        }
 
         contentView.addSubview(spacedContentView)
 
