@@ -11,7 +11,7 @@ import Foundation
 struct HourlyForecastModel: Decodable {
     let list: [List]
     let city: City
-    
+
     // MARK: - City
     struct City: Decodable {
         let id: Int
@@ -56,10 +56,6 @@ struct HourlyForecastModel: Decodable {
     // MARK: - Rain
     struct Rain: Decodable {
         let the3H: Double
-
-        enum CodingKeys: String, CodingKey {
-            case the3H
-        }
     }
 
     // MARK: - Sys
@@ -79,5 +75,5 @@ struct HourlyForecastModel: Decodable {
         let deg: Int
         let gust: Double
     }
-    
+
 }

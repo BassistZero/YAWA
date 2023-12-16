@@ -44,7 +44,7 @@ final class WeatherPhotoService {
 
     func getPhoto(from weatherCode: Int?, completion: @escaping (UIImage) -> Void) {
         guard let weatherCode else { return }
-        
+
         var lightOrDark: String {
             let currentHour = Calendar.current.component(.hour, from: Date())
             return (8...18).contains(currentHour) ? "d" : "n"

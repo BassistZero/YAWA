@@ -16,7 +16,7 @@ final class SceneDelegate: UIResponder {
 // MARK: - UIWindowSceneDelegate
 
 extension SceneDelegate: UIWindowSceneDelegate {
-    
+
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         configureWindow(with: scene)
     }

@@ -139,7 +139,7 @@ private extension CityWeatherViewController {
         NSLayoutConstraint.activate([
             summaryView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
             summaryView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            summaryView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            summaryView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
     }
 
@@ -164,14 +164,13 @@ private extension CityWeatherViewController {
         NSLayoutConstraint.activate([
             hourlyForecastView.topAnchor.constraint(equalTo: summaryView.bottomAnchor, constant: 16),
             hourlyForecastView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            hourlyForecastView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-//            hourlyForecastView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            hourlyForecastView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
     }
 
     func configureAddToFavoritesButton(title: String, action: UIAction) {
         guard presenter?.city != nil else { return }
-        
+
         let oldView = addToFavoritesButton
         addToFavoritesButton = build.createAddToFavoritesButton(title: title, action: action)
         contentView.addSubview(addToFavoritesButton)

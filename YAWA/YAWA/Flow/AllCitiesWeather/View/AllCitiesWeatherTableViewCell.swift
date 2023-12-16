@@ -48,12 +48,11 @@ final class AllCitiesWeatherTableViewCell: UITableViewCell {
         configureLabels()
     }
 
-
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
 }
 
 // MARK: - Configuration
@@ -68,7 +67,6 @@ private extension AllCitiesWeatherTableViewCell {
             let gradientLayer = build.createGradientLayer(colors: UIColor.gradientBackground, frame: CGRect(x: 0, y: 0, width: 500, height: 300))
             gradientLayer.startPoint = CGPoint(x: 0, y: 0)
             view.layer.addSublayer(gradientLayer)
-
 
             view.layer.cornerRadius = 15
             view.layer.cornerCurve = .continuous
@@ -159,7 +157,7 @@ private extension AllCitiesWeatherTableViewCell {
             weatherConditionImageView.trailingAnchor.constraint(equalTo: temperatureRangeLabel.leadingAnchor, constant: -16),
             weatherConditionImageView.topAnchor.constraint(equalTo: spacedContentView.topAnchor, constant: 8),
             weatherConditionImageView.bottomAnchor.constraint(equalTo: spacedContentView.bottomAnchor, constant: -8),
-            weatherConditionImageView.widthAnchor.constraint(equalTo: weatherConditionImageView.heightAnchor),
+            weatherConditionImageView.widthAnchor.constraint(equalTo: weatherConditionImageView.heightAnchor)
         ])
     }
 

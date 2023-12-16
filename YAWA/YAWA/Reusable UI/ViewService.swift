@@ -33,7 +33,7 @@ final class ViewService {
 
             return scrollView
         }()
-        
+
         return scrollView
     }
 
@@ -61,8 +61,7 @@ final class ViewService {
             humidity = "Humidity: \(forecast.main.humidity)%"
             temperatureRange = "\(forecast.main.tempMin)º — \(forecast.main.tempMax)º"
             currentTemperature = "\(String(format: "%.1f", forecast.main.temp))º"
-        }
-        else {
+        } else {
             cityName = "—"
             weatherConditionDescription = "—"
             humidity = "Humidity: —%"
@@ -84,8 +83,6 @@ final class ViewService {
 
             view.layer.cornerRadius = 15
             view.layer.cornerCurve = .continuous
-
-
 
             view.clipsToBounds = true
 
@@ -258,7 +255,6 @@ final class ViewService {
             let gradientLayer = createGradientLayer(colors: UIColor.gradientBackground, frame: CGRect(x: 0, y: 0, width: 500, height: 300))
             gradientLayer.startPoint = CGPoint(x: 0, y: 0)
             view.layer.addSublayer(gradientLayer)
-
 
             view.layer.cornerRadius = 15
             view.layer.cornerCurve = .continuous

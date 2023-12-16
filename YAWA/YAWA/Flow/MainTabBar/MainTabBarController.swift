@@ -33,8 +33,7 @@ final class MainTabBarController: UITabBarController {
         allCitiesWeatherModule.navigationItem.searchController = searchController
         allCitiesWeatherModule.navigationItem.hidesSearchBarWhenScrolling = false
 
-
         viewControllers = [cityWeatherModule, allCitiesWeatherModuleWrapper]
     }
-    
+
 }

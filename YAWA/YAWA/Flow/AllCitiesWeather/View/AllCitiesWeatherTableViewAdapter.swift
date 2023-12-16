@@ -23,7 +23,7 @@ extension AllCitiesWeatherTableViewAdapter: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         cities?.count ?? 0
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(AllCitiesWeatherTableViewCell.self)", for: indexPath) as? AllCitiesWeatherTableViewCell, let cities else { return .init() }
 
@@ -35,8 +35,7 @@ extension AllCitiesWeatherTableViewAdapter: UITableViewDataSource {
             temperatureRange = "\(forecast.main.tempMin)º — \(forecast.main.tempMax)º"
             currentTemperature = "\(String(format: "%.1f", forecast.main.temp))º"
             weatherID = forecast.weather.first?.id
-        }
-        else {
+        } else {
             temperatureRange = "-º — -º"
             currentTemperature = "—"
         }

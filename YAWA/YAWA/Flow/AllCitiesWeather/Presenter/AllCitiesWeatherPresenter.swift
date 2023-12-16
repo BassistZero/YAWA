@@ -61,5 +61,5 @@ extension AllCitiesWeatherPresenter: StorageServiceDelegate {
     func storageUpdated() {
         updateCities()
     }
-    
+
 }

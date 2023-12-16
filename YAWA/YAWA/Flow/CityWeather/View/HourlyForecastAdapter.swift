@@ -23,14 +23,13 @@ extension HourlyForecastAdapter: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         forecast?.list.count ?? 0
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CityWeatherHourlyForecastCell.self)", for: indexPath) as? CityWeatherHourlyForecastCell, let forecast else {
             return .init()
         }
 
         let weatherID = forecast.list[indexPath.row].weather.first?.id
-
 
         let temperature = forecast.list[indexPath.row].main.temp
 
@@ -64,7 +63,6 @@ extension HourlyForecastAdapter: UICollectionViewDataSource {
 
 }
 
-
 extension HourlyForecastAdapter: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -75,6 +73,5 @@ extension HourlyForecastAdapter: UICollectionViewDelegate {
 }
 
 extension HourlyForecastAdapter: UICollectionViewDelegateFlowLayout {
-    
-    
+
 }

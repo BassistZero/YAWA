@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CoreLocation.CLLocation
 import UIKit.UIImage
 import CoreLocation
 
@@ -20,7 +19,7 @@ protocol NetworkService {
     func downloadWeatherConditionImage(from url: URL, completion: @escaping (UIImage) -> Void)
 }
 
-final class NetworkServiceImpl:NetworkService {
+final class NetworkServiceImpl: NetworkService {
 
     static var shared = NetworkServiceImpl()
     private init() { }
@@ -35,13 +34,11 @@ final class NetworkServiceImpl:NetworkService {
             switch forecast {
             case .success(let forecast):
                 completion(forecast)
-            case .failure(_):
+            case .failure:
                 break
             }
         }
     }
-
-
 
     func loadCurrentWeather(location: CLLocationCoordinate2D, completion: @escaping (WeatherModel) -> Void) {
         let url = URL(string: "\(baseURL)/weather?lat=\(location.latitude)&lon=\(location.longitude)&exclude=current,minutely,hourly,alerts&units=metric&appid=\(appid)")!
@@ -50,7 +47,7 @@ final class NetworkServiceImpl:NetworkService {
             switch weather {
             case .success(let weather):
                 completion(weather)
-            case .failure(_):
+            case .failure:
                 break
             }
         }
@@ -74,7 +71,7 @@ final class NetworkServiceImpl:NetworkService {
 
     func downloadWeatherConditionImage(from url: URL, completion: @escaping (UIImage) -> Void) {
         let request = URLRequest(url: url)
-        let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
+        let dataTask = URLSession.shared.dataTask(with: request) { data, _, _ in
             let weatherConditionImage = UIImage(data: data!)!
             completion(weatherConditionImage)
         }
@@ -89,11 +86,11 @@ private extension NetworkServiceImpl {
 
         func getJSONData<T: Decodable>(as type: T.Type, from url: URL, completion: @escaping (Result<T, NetworkError>) -> Void) {
             let request = URLRequest(url: url)
-    
-            let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
+
+            let dataTask = URLSession.shared.dataTask(with: request) { data, _, _ in
                 let jsonDecoder = JSONDecoder()
                 jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-    
+
                 guard let data else {
                     completion(Result.failure(NetworkError.noData))
                     return
@@ -105,7 +102,7 @@ private extension NetworkServiceImpl {
 
                 completion(Result.success(decodedData))
             }
-    
+
             dataTask.resume()
         }
 
@@ -119,7 +116,7 @@ private extension NetworkServiceImpl {
                 guard let cityCoordinates = cityCoordinates.first else { return }
                 let coordinates = CLLocationCoordinate2D(latitude: cityCoordinates.lat, longitude: cityCoordinates.lon)
                 completion(coordinates)
-            case .failure(_):
+            case .failure:
                 break
             }
 

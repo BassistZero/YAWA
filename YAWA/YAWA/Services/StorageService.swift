@@ -23,7 +23,7 @@ final class StorageService {
 
     func saveCity(city: String?) {
         guard let city else { return }
-        
+
         var cities = Set(loadCities())
         cities.insert(city)
         saveCities(cities: Array(cities))
@@ -43,7 +43,6 @@ final class StorageService {
     }
 
     func removeCity(city: String?) {
-        //FIXME: - Just implement it
         guard let city else { return }
 
         let cities = loadCities()

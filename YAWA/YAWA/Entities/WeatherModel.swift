@@ -19,7 +19,6 @@ struct WeatherModel: Decodable {
     let name: String
     let cod: Int
 
-
     // MARK: - Clouds
     struct Clouds: Decodable {
         let all: Int
