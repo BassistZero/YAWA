@@ -138,7 +138,6 @@ private extension CityWeatherViewController {
 
         view.layer.insertSublayer(gradientLayer, at: 0)
         oldLayer.removeFromSuperlayer()
-        print(view.layer.sublayers!.count)
     }
 
     func configureHourlyForecast(forecast: HourlyForecastModel?) {
