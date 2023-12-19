@@ -169,7 +169,7 @@ private extension CityWeatherViewController {
     }
 
     func configureAddToFavoritesButton(title: String, action: UIAction) {
-        guard presenter?.city != nil else { return }
+        guard presenter?.city != nil else { hourlyForecastView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true; return }
 
         let oldView = addToFavoritesButton
         addToFavoritesButton = build.createAddToFavoritesButton(title: title, action: action)
